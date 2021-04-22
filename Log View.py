@@ -61,7 +61,7 @@ class App:
         # GPS info
         self.frame2 = LabelFrame(
             self.label_frame, text="GPS info", font="{Helvetica} 8 bold", bg="lightblue")
-        self.frame2.pack(side=LEFT, pady=5, padx=5,fill = X, expand=1)
+        self.frame2.pack(side=LEFT, pady=5, padx=5, fill=X, expand=1)
 
         self.latitude = Label(self.frame2, text="Latitude:", bg="lightblue")
         self.latitude.grid(row=0, column=0, pady=5)
@@ -116,7 +116,7 @@ class App:
         # signal strength
         self.frame1 = LabelFrame(
             self.label_frame, text="Signal info", font="{Helvetica} 8 bold", bg="lightblue")
-        self.frame1.pack(side=LEFT, pady=5, padx=5,fill=X,expand=1)
+        self.frame1.pack(side=LEFT, pady=5, padx=5, fill=X, expand=1)
         self.RSRP = Label(self.frame1, text="RSRP:", bg="lightblue")
         self.RSRP.grid(row=0, column=0,  pady=5)
         self.RSRP_entry = Text(self.frame1, height=1, width=8)
@@ -208,7 +208,7 @@ class App:
         self.arfcn_entry.grid(row=5, column=5, padx=5, pady=5)
 
         self.frame4 = Frame(self.label_frame, bg="lightblue")
-        self.frame4.pack(side=LEFT, pady=5,expand=1,fill =X)
+        self.frame4.pack(side=LEFT, pady=5, expand=1, fill=X)
 
         # general info
         self.frame3 = LabelFrame(
@@ -521,10 +521,14 @@ class App:
 
     def on_closing(self):
         if mb.askokcancel("Quit", "Do you want to quit ?"):
-            if self.continueLogging:
-                self.continueLogging = False
-            root.quit()
+            self.continueLogging = False
+            try:
+                self.sock.shutdown(1)
+                self.sock.close()
+            except:
+                pass
             root.destroy()
+            root.quit()
             sys.exit()
 
 
